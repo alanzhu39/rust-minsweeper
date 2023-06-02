@@ -1,0 +1,53 @@
+TODO:
+Skeleton:
+- field.rs
+- display.rs
+- control.rs
+- main.rs
+fn main() {
+  setGameMode()
+  getQuickFlagSettings()
+  while (true) {
+    displayBanner()
+    displayField()
+    displayFlagCount()
+    if (gameIsOver) {
+      displayGameOverMessage()
+    } else {
+      displayControls()
+    }
+    if (gameIsRunning) {
+      getMove()
+    } else {
+      break;
+    }
+  }
+}
+
+Brainstorm:
+- field: holds game state of mine field
+  - mine positions
+  - cell contents (flag, number, empty, etc.)
+  - field size (board size, num mines, first sweep)
+  - game status (win, loss, in progress)
+  - print grid/cells/field
+- display: prints game status and other UI elements
+  - minesweeper banner
+  - field based on field state
+  - game status based on field state
+  - controls info
+- control: processes user keyboard inputs
+  - parse input
+  - track user cursor position
+- main: main game flow
+  - start screen, game mode selection
+  - game play, field active
+  - game over display, quit or replay
+
+5/30/23:
+In progress:
+- brainstorm
+- project skeleton
+
+Finished:
+- rust refresher
