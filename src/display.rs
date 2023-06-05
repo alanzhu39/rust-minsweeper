@@ -1,6 +1,7 @@
 use crate::util;
 use indoc::indoc;
 use colored::Colorize;
+use std::io::{self, Write};
 
 /* Display Minesweeper banner */
 pub fn displayBanner() {
@@ -34,11 +35,13 @@ pub fn getGameMode() -> util::GameMode {
     println!("{:indent$}{}", "", "2. Intermediate".bold().yellow());
     println!("{:indent$}{}", "", "3. Expert".bold().red());
     println!("{:indent$}{}", "", "4. Custom".bold().blue());
-    println!("{:indent$}", "");
-    std::io::stdin().read_line(&mut line);
+    println!("");
+    print!("{:indent$}", "");
+    io::stdout().flush().unwrap();
+    io::stdin().read_line(&mut line).unwrap();
 
     // validate input choice
-    match line.as_str() {
+    match line.trim_end() {
       "1" => return util::GameMode::BEGINNER,
       "2" => return util::GameMode::INTERMEDIATE,
       "3" => return util::GameMode::EXPERT,

@@ -4,7 +4,6 @@ mod display;
 fn main() {
   // util::clearScreen();
   let gameMode = display::getGameMode();
-  println!("{:?}", gameMode)
   // getQuickFlagSettings()
 
   // while (true) {
