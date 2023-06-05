@@ -54,5 +54,44 @@ pub fn getGameMode() -> util::GameMode {
     }
     break;
   }
-  return util::GameMode::BEGINNER;
+  util::GameMode::BEGINNER
+}
+
+pub fn getQuickClearSettings() -> bool {
+  let mut line = String::new();
+  loop {
+    util::clearScreen();
+    displayBanner();
+
+    // print quick clear prompt
+    print!(
+      "{} {} {} {} {} {}",
+      ("
+      Quick Clear : If a cell with a number on it is already revealed,
+      and it's neighbours have been flagged with the same number,
+      then all tiles adjacent to this cell are also sweeped.
+
+      Enable Quick Clear?").bold().yellow(),
+      "[".bold().white(),
+      "Y".bold().green(),
+      "/".bold().white(),
+      "N".bold().red(),
+      "] : ".bold().white(),
+    );
+    io::stdout().flush().unwrap();
+    io::stdin().read_line(&mut line).unwrap();
+
+    // validate input choice
+    match line.trim_end() {
+      "y" | "Y" => return true,
+      "n" | "N" => return false,
+      _ => {
+        println!("{}", "Invalid input, please try again".red());
+        line.clear();
+        continue;
+      }
+    }
+    break;
+  }
+  false
 }

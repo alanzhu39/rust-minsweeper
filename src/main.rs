@@ -4,8 +4,7 @@ mod display;
 fn main() {
   // util::clearScreen();
   let gameMode = display::getGameMode();
-  // getQuickFlagSettings()
-
+  let quickClearEnabled = display::getQuickClearSettings();
   // while (true) {
   //   util::clearScreen();
   //   displayBanner()
