@@ -45,7 +45,8 @@ pub fn getGameMode() -> util::GameMode {
       "1" => return util::GameMode::BEGINNER,
       "2" => return util::GameMode::INTERMEDIATE,
       "3" => return util::GameMode::EXPERT,
-      "4" => return util::GameMode::CUSTOM,
+      // TODO: implement custom gamemode
+      // "4" => return util::GameMode::CUSTOM,
       _ => {
         println!("{}", "Invalid input, please try again".red());
         line.clear();
@@ -57,6 +58,7 @@ pub fn getGameMode() -> util::GameMode {
   util::GameMode::BEGINNER
 }
 
+/* Get quick clear settings */
 pub fn getQuickClearSettings() -> bool {
   let mut line = String::new();
   loop {
