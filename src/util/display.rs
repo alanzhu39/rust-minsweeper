@@ -1,4 +1,5 @@
 use colored::Colorize;
+use super::Buffer;
 
 /* Display Minesweeper banner */
 pub fn display_banner() {
@@ -16,16 +17,11 @@ pub fn display_banner() {
   );
 }
 
-pub fn display_flag_count_header() {
-  println!(
-    "{}",
-    (r"
-(   _ __ ___ (_)_ __   ___ ___ )
-(  | '_ ` _ \| | '_ \ / _ / __|)
-(  | | | | | | | | | |  __\__ \)
-(  |_| |_| |_|_|_| |_|\___|___/)
-    ").bold().white()
-  );
+pub fn display_flag_count_header(buffer: &mut Buffer) {
+  buffer.writeln(r"   _ __ ___ (_)_ __   ___ ___ ".bold().white());
+  buffer.writeln(r"  | '_ ` _ \| | '_ \ / _ / __|".bold().white());
+  buffer.writeln(r"  | | | | | | | | | |  __\__ \".bold().white());
+  buffer.writeln(r"  |_| |_| |_|_|_| |_|\___|___/".bold().white());
 }
 
 pub fn display_victory_message() {

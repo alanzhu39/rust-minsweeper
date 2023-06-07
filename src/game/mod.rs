@@ -1,7 +1,7 @@
 mod cell;
 
 use crate::util;
-use crate::util::{GameMode, Key};
+use crate::util::{Buffer, GameMode, Key};
 use cell::{Cell, CellState};
 
 pub enum GameState {
@@ -102,18 +102,12 @@ impl Game {
   }
 
   // FIXME: testing
-  // pub fn foo(&mut self, i: u8, j: u8) {
-  //   println!("{:?}", self.field);
-  //   let mut cell = self.get_cell(i, j);
-  //   cell.num_adj_mines = 3;
-  //   self.bar(i, j);
-  //   println!("{:?}", self.field);
-  // }
-
-  // fn bar(&mut self, i: u8, j: u8) {
-  //   let mut cell = self.get_cell(i, j);
-  //   cell.num_adj_mines = 5;
-  // }
+  pub fn foo(&mut self) {
+    let mut buffer = Buffer::new();
+    util::display_flag_count_header(&mut buffer);
+    util::display_sevseg(&mut buffer, 5, self.flag_count);
+    buffer.display_buffer();
+  }
 
   fn sweep_cell(&mut self, sweep_i: u8, sweep_j: u8) {
     unimplemented!("sweep_cell() not implemented");
@@ -177,8 +171,10 @@ impl Game {
 
   pub fn display_game(&self) {
     unimplemented!("display_game() not implemented");
+    let mut buffer = Buffer::new();
     // display field
     // display flag count header
+    util::display_flag_count_header(&mut buffer);
     // display flag count sevseg
     match self.game_state {
       GameState::WON => {
@@ -191,6 +187,7 @@ impl Game {
         util::display_controls();
       }
     }
+    buffer.display_buffer();
   }
 
   fn diplay_field(&self) {

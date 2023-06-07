@@ -1,24 +1,26 @@
+use colored::{ColoredString, Colorize};
+
 pub struct Buffer {
-  buf: Vec<String>,
+  buf: Vec<Vec<ColoredString>>,
   line: usize
 }
 
 impl Buffer {
   pub fn new() -> Buffer {
     Buffer {
-      buf: vec![String::new()],
+      buf: vec![vec!["".normal()]],
       line: 0
     }
   }
 
-  pub fn write(&mut self, s: &str) {
-    self.buf[self.line].push_str(s);
+  pub fn write(&mut self, s: ColoredString) {
+    self.buf[self.line].push(s)
   }
 
-  pub fn writeln(&mut self, s: &str) {
-    self.buf[self.line].push_str(s);
+  pub fn writeln(&mut self, s: ColoredString) {
+    self.buf[self.line].push(s);
     if self.line == self.buf.len() - 1 {
-      self.buf.push(String::new());
+      self.buf.push(vec!["".normal()]);
     }
     self.line += 1;
   }
@@ -33,12 +35,15 @@ impl Buffer {
 
   pub fn display_buffer(&self) {
     for line in &self.buf {
-      println!("{}", line);
+      for s in line {
+        print!("{}", s);
+      }
+      println!();
     }
   }
 
   pub fn clear_buffer(&mut self) {
-    self.buf = vec![String::new()];
+    self.buf = vec![vec!["".normal()]];
     self.line = 0;
   }
 }
