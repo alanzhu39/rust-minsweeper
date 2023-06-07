@@ -2,7 +2,7 @@ mod cell;
 
 use crate::util;
 use crate::util::{GameMode, Key};
-use cell::Cell;
+use cell::{Cell, CellState};
 
 pub enum GameState {
   RUNNING,
@@ -91,37 +91,78 @@ impl Game {
         self.sweep_cell(self.i, self.j);
       }
       Some(Key::K_F) => {
-        self.flag_cell(self.i, self.j);
+        self.toggle_flag(self.i, self.j);
       }
       _ => {}
     }
   }
 
-  fn get_cell(&mut self, i: u8, j: u8) -> &mut Cell {
-    &mut self.field[i as usize][j as usize]
+  fn get_cell(&mut self, cell_i: u8, cell_j: u8) -> &mut Cell {
+    &mut self.field[cell_i as usize][cell_j as usize]
   }
+
+  // FIXME: testing
+  // pub fn foo(&mut self, i: u8, j: u8) {
+  //   println!("{:?}", self.field);
+  //   let mut cell = self.get_cell(i, j);
+  //   cell.num_adj_mines = 3;
+  //   self.bar(i, j);
+  //   println!("{:?}", self.field);
+  // }
+
+  // fn bar(&mut self, i: u8, j: u8) {
+  //   let mut cell = self.get_cell(i, j);
+  //   cell.num_adj_mines = 5;
+  // }
 
   fn sweep_cell(&mut self, sweep_i: u8, sweep_j: u8) {
     unimplemented!("sweep_cell() not implemented");
+    let cell = self.get_cell(sweep_i, sweep_j);
+    if cell.flagged {
+      return
+    }
     if self.is_first_sweep {
       self.do_first_sweep(sweep_i, sweep_j);
       self.is_first_sweep = false;
       return
     }
+
     let mut cell = self.get_cell(sweep_i, sweep_j);
-    if cell.hidden && !cell.flagged {
-      cell.hidden = false;
-      cell.flagged = true;
-      if self.flag_count > 0 {
-        self.flag_count -= 1;
+    match cell.state {
+      CellState::EMPTY => {
+        // if cell is hidden, reveal cell and all neighboring empty cells & cells adj to mines
+        // else pass
+      }
+      CellState::MINE => {
+        // if cell is hidden, reveal cell, game over
+        // else pass
+      }
+      CellState::ADJ_TO_MINE => {
+        // if cell is hidden, reveal cell
+        // else if quick clear enabled, do quick clear
       }
     }
   }
 
-  fn flag_cell(&mut self, flag_i: u8, flag_j: u8) {
-    unimplemented!("flag_cell() not implemented");
-    // if cell is hidden, flag it
-    // else, pass
+  fn sweep_quick_clear(&mut self, sweep_i: u8, sweep_j: u8) {
+    unimplemented!("sweep_quick_clear() not implemented");
+    // if cell is revealed and has adj mine count
+    // if cell has adj mine count == num of flagged adj cells
+    // reveal all adj cells
+  }
+
+  fn toggle_flag(&mut self, flag_i: u8, flag_j: u8) {
+    let mut cell = self.get_cell(flag_i, flag_j);
+    if !cell.hidden {
+      return
+    }
+    if cell.flagged {
+      cell.flagged = false;
+      self.flag_count -= 1;
+    } else {
+      cell.flagged = true;
+      self.flag_count += 1;
+    }
   }
 
   fn do_first_sweep(&mut self, sweep_i: u8, sweep_j: u8) {

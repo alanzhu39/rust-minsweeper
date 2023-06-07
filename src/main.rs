@@ -5,7 +5,7 @@ mod game;
 fn main() {
   // FIXME: debugging
   // let mut curr_game = game::Game::start_game(util::GameMode::BEGINNER, false);
-  // curr_game.sweep_cell(0, 0);
+  // curr_game.foo(8, 8);
   // return;
 
   util::clear_screen();
