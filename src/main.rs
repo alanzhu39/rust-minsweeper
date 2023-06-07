@@ -1,30 +1,30 @@
 pub mod util;
-mod display;
+mod setup;
 mod game;
 
 fn main() {
-  // util::clearScreen();
-  let game_mode = display::get_game_mode();
-  let quick_clear_enabled = display::get_quick_clear_settings();
+  // util::clear_screen();
+  let game_mode = setup::get_game_mode();
+  let quick_clear_enabled = setup::get_quick_clear_settings();
 
-  // start game
+  let mut curr_game = game::Game::start_game(game_mode, quick_clear_enabled);
 
-  // while (true) {
-  //   util::clearScreen();
-  //   display_banner()
-  //   displayField()
-  //   displayFlagCount()
+  loop {
+    util::clear_screen();
+    util::display_banner();
+    curr_game.display_game();
+    // displayFlagCount();
 
-  //   if (gameIsOver) {
-  //     displayGameOverMessage()
-  //   } else {
-  //     displayControls()
-  //   }
+    // if (gameIsOver) {
+    //   displayGameOverMessage()
+    // } else {
+    //   displayControls()
+    // }
 
-  //   if (gameIsRunning) {
-  //     getMove()
-  //   } else {
-  //     break;
-  //   }
-  // }
+    // if (gameIsRunning) {
+    //   getMove()
+    // } else {
+    //   break;
+    // }
+  }
 }

@@ -26,8 +26,8 @@ pub struct Game {
 }
 
 impl Game {
-  pub fn startGame(game_mode: util::GameMode, quick_clear_enabled: bool) -> Game {
-    let mut width, height, num_mines = match game_mode {
+  pub fn start_game(game_mode: util::GameMode, quick_clear_enabled: bool) -> Game {
+    let (width, height, num_mines) = match game_mode {
       util::GameMode::BEGINNER => {
         (9, 9, 10)
       }
@@ -60,5 +60,12 @@ impl Game {
       i: height / 2,
       j: width / 2
     }
+  }
+
+  pub fn display_game(&self) {
+    unimplemented!("display_game() not implemented");
+    // display field
+    // display flag count header
+    // display flag count sevseg
   }
 }

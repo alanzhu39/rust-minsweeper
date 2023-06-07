@@ -1,4 +1,10 @@
+mod sevseg;
+mod display;
+
 use clearscreen;
+
+pub use sevseg::display_sevseg;
+pub use display::{display_banner};
 
 #[derive(Debug)]
 pub enum GameMode {

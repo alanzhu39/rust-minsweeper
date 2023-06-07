@@ -1,9 +1,11 @@
+#[derive(Clone)]
 pub enum CellState {
   EMPTY,
   MINE,
   ADJ_TO_MINE
 }
 
+#[derive(Clone)]
 pub struct Cell {
   flagged: bool,
   hidden: bool,
