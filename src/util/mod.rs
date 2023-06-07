@@ -1,5 +1,6 @@
 mod sevseg;
 mod display;
+mod buffer;
 
 use clearscreen;
 use getch::Getch;
@@ -12,6 +13,7 @@ pub use display::{
   display_victory_message,
   display_defeat_messag
 };
+pub use buffer::Buffer;
 
 #[derive(Debug)]
 pub enum GameMode {

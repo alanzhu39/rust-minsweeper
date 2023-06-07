@@ -1,9 +1,10 @@
 use crate::util;
+use crate::GameMode;
 use colored::Colorize;
 use std::io::{self, Write};
 
 /* Get gamemode, returns enum variant */
-pub fn get_game_mode() -> util::GameMode {
+pub fn get_game_mode() -> GameMode {
   let mut line = String::new();
   loop {
     util::clear_screen();
@@ -25,11 +26,11 @@ pub fn get_game_mode() -> util::GameMode {
 
     // validate input choice
     match line.trim_end() {
-      "1" => return util::GameMode::BEGINNER,
-      "2" => return util::GameMode::INTERMEDIATE,
-      "3" => return util::GameMode::EXPERT,
+      "1" => return GameMode::BEGINNER,
+      "2" => return GameMode::INTERMEDIATE,
+      "3" => return GameMode::EXPERT,
       // TODO: implement custom gamemode
-      // "4" => return util::GameMode::CUSTOM,
+      // "4" => return GameMode::CUSTOM,
       _ => {
         println!("{}", "Invalid input, please try again".red());
         line.clear();

@@ -14,12 +14,10 @@ fn main() {
     util::display_banner();
     curr_game.display_game();
 
-    if (curr_game.is_game_over()) {
-      curr_game.display_game_over_message();
-      break;
-    } else {
-      util::display_controls();
+    if curr_game.is_running() {
       curr_game.get_move();
+    } else {
+      break;
     }
   }
 }

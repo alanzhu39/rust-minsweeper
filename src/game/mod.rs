@@ -1,6 +1,7 @@
 mod cell;
 
 use crate::util;
+use crate::util::{GameMode, Key};
 
 pub enum GameState {
   RUNNING,
@@ -12,7 +13,7 @@ pub struct Game {
   field: Vec<Vec<cell::Cell>>,
 
   game_state: GameState,
-  game_mode: util::GameMode,
+  game_mode: GameMode,
   quick_clear_enabled: bool,
   is_first_sweep: bool,
 
@@ -26,15 +27,15 @@ pub struct Game {
 }
 
 impl Game {
-  pub fn start_game(game_mode: util::GameMode, quick_clear_enabled: bool) -> Game {
+  pub fn start_game(game_mode: GameMode, quick_clear_enabled: bool) -> Game {
     let (width, height, num_mines) = match game_mode {
-      util::GameMode::BEGINNER => {
+      GameMode::BEGINNER => {
         (9, 9, 10)
       }
-      util::GameMode::INTERMEDIATE => {
+      GameMode::INTERMEDIATE => {
         (16, 16, 40)
       }
-      util::GameMode::EXPERT => {
+      GameMode::EXPERT => {
         (30, 16, 99)
       }
       _ => {
@@ -64,11 +65,39 @@ impl Game {
 
   pub fn get_move(&self) {
     unimplemented!("get_move() not implemented");
-    // get key
-    // match key, pass if none
+    let key = util::get_key();
+    match key {
+      Some(Key::K_UP) => {
+        if self.i > 0 {
+          self.i -= 1;
+        }
+      }
+      Some(Key::K_DOWN) => {
+        if self.i < self.height - 1 {
+          self.i += 1;
+        }
+      }
+      Some(Key::K_LEFT) => {
+        if self.j > 0 {
+          self.j -= 1;
+        }
+      }
+      Some(Key::K_RIGHT) => {
+        if self.j < self.width - 1 {
+          self.j += 1;
+        }
+      }
+      Some(Key::K_S) => {
+        self.sweep_cell(self.i, self.j);
+      }
+      Some(Key::K_F) => {
+        self.flag_cell(self.i, self.j);
+      }
+      _ => {}
+    }
   }
 
-  pub fn sweep_cell(&self, sweep_i: u8, sweep_j: u8) {
+  fn sweep_cell(&self, sweep_i: u8, sweep_j: u8) {
     unimplemented!("sweep_cell() not implemented");
     if self.is_first_sweep {
       self.do_first_sweep(sweep_i, sweep_j);
@@ -76,6 +105,13 @@ impl Game {
       return
     }
     // if cell is flagged, pass
+    // else, logic
+  }
+
+  fn flag_cell(&self, flag_i: u8, flag_j: u8) {
+    unimplemented!("flag_cell() not implemented");
+    // if cell is hidden, flag it
+    // else, pass
   }
 
   fn do_first_sweep(&self, sweep_i: u8, sweep_j: u8) {
@@ -84,8 +120,8 @@ impl Game {
     // update all surrounding cells w adj mine counts
   }
 
-  pub fn is_game_over(&self) -> bool {
-    self.game_state != GameState::RUNNING
+  pub fn is_running(&self) -> bool {
+    self.game_state == GameState::RUNNING
   }
 
   pub fn display_game(&self) {
@@ -93,9 +129,6 @@ impl Game {
     // display field
     // display flag count header
     // display flag count sevseg
-  }
-
-  pub fn display_game_over_message(&self) {
     match self.game_state {
       GameState::WON => {
         util::display_victory_message();
@@ -103,7 +136,13 @@ impl Game {
       GameState::LOST => {
         util::display_defeat_message();
       }
-      _ => panic!("display_game_over_message() called when game is still running");
+      GameState::RUNNING => {
+        util::display_controls();
+      }
     }
+  }
+
+  fn diplay_field(&self) {
+    unimplemented!("display_field() not implemented");
   }
 }
