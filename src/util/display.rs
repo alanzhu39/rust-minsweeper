@@ -19,11 +19,15 @@ pub fn display_banner() {
 pub fn display_flag_count_header() {
   println!(
     "{}",
-    ("
+    (r"
 (   _ __ ___ (_)_ __   ___ ___ )
 (  | '_ ` _ \| | '_ \ / _ / __|)
 (  | | | | | | | | | |  __\__ \)
 (  |_| |_| |_|_|_| |_|\___|___/)
     ").bold().white()
   );
+}
+
+pub fn display_controls() {
+  unimplemented!("display_controls() not implemented");
 }

@@ -62,10 +62,24 @@ impl Game {
     }
   }
 
+  pub fn get_move(&self) {
+    unimplemented!("get_move() not implemented");
+    // get key
+    // match key, pass if none
+  }
+
+  pub fn is_game_over(&self) -> bool {
+    self.game_state != GameState::RUNNING
+  }
+
   pub fn display_game(&self) {
     unimplemented!("display_game() not implemented");
     // display field
     // display flag count header
     // display flag count sevseg
+  }
+
+  pub fn display_game_over_message() {
+    unimplemented!("display_game_over_message() not implemented");
   }
 }

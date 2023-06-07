@@ -3,7 +3,7 @@ mod setup;
 mod game;
 
 fn main() {
-  // util::clear_screen();
+  util::clear_screen();
   let game_mode = setup::get_game_mode();
   let quick_clear_enabled = setup::get_quick_clear_settings();
 
@@ -13,18 +13,13 @@ fn main() {
     util::clear_screen();
     util::display_banner();
     curr_game.display_game();
-    // displayFlagCount();
 
-    // if (gameIsOver) {
-    //   displayGameOverMessage()
-    // } else {
-    //   displayControls()
-    // }
-
-    // if (gameIsRunning) {
-    //   getMove()
-    // } else {
-    //   break;
-    // }
+    if (curr_game.is_game_over()) {
+      curr_game.display_game_over_message();
+      break;
+    } else {
+      util::display_controls();
+      curr_game.get_move();
+    }
   }
 }
