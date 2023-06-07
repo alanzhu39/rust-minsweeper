@@ -5,7 +5,13 @@ use clearscreen;
 use getch::Getch;
 
 pub use sevseg::display_sevseg;
-pub use display::{display_banner};
+pub use display::{
+  display_banner,
+  display_controls,
+  display_flag_count_header,
+  display_victory_message,
+  display_defeat_messag
+};
 
 #[derive(Debug)]
 pub enum GameMode {

@@ -28,6 +28,14 @@ pub fn display_flag_count_header() {
   );
 }
 
+pub fn display_victory_message() {
+  unimplemented!("display_victory_message() not implemented");
+}
+
+pub fn display_defeat_message() {
+  unimplemented!("display_defeat_message() not implemented");
+}
+
 pub fn display_controls() {
   unimplemented!("display_controls() not implemented");
 }

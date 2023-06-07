@@ -35,7 +35,7 @@ impl Game {
         (16, 16, 40)
       }
       util::GameMode::EXPERT => {
-        (16, 30, 99)
+        (30, 16, 99)
       }
       _ => {
         (0, 0, 0)
@@ -68,6 +68,22 @@ impl Game {
     // match key, pass if none
   }
 
+  pub fn sweep_cell(&self, sweep_i: u8, sweep_j: u8) {
+    unimplemented!("sweep_cell() not implemented");
+    if self.is_first_sweep {
+      self.do_first_sweep(sweep_i, sweep_j);
+      self.is_first_sweep = false;
+      return
+    }
+    // if cell is flagged, pass
+  }
+
+  fn do_first_sweep(&self, sweep_i: u8, sweep_j: u8) {
+    unimplemented!("do_first_sweep() not implemented");
+    // randomly populate field with mines, such that no mines are within the 3x3 block around the first sweep
+    // update all surrounding cells w adj mine counts
+  }
+
   pub fn is_game_over(&self) -> bool {
     self.game_state != GameState::RUNNING
   }
@@ -79,7 +95,15 @@ impl Game {
     // display flag count sevseg
   }
 
-  pub fn display_game_over_message() {
-    unimplemented!("display_game_over_message() not implemented");
+  pub fn display_game_over_message(&self) {
+    match self.game_state {
+      GameState::WON => {
+        util::display_victory_message();
+      }
+      GameState::LOST => {
+        util::display_defeat_message();
+      }
+      _ => panic!("display_game_over_message() called when game is still running");
+    }
   }
 }
