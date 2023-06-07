@@ -63,8 +63,7 @@ impl Game {
     }
   }
 
-  pub fn get_move(&self) {
-    unimplemented!("get_move() not implemented");
+  pub fn get_move(&mut self) {
     let key = util::get_key();
     match key {
       Some(Key::K_UP) => {
@@ -121,7 +120,7 @@ impl Game {
   }
 
   pub fn is_running(&self) -> bool {
-    self.game_state == GameState::RUNNING
+    matches!(self.game_state, GameState::RUNNING)
   }
 
   pub fn display_game(&self) {

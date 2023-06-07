@@ -11,7 +11,7 @@ pub use display::{
   display_controls,
   display_flag_count_header,
   display_victory_message,
-  display_defeat_messag
+  display_defeat_message
 };
 pub use buffer::Buffer;
 

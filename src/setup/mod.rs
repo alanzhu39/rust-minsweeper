@@ -1,5 +1,5 @@
 use crate::util;
-use crate::GameMode;
+use crate::util::GameMode;
 use colored::Colorize;
 use std::io::{self, Write};
 
