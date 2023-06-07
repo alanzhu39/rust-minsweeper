@@ -9,9 +9,8 @@ pub use sevseg::display_sevseg;
 pub use display::{
   display_banner,
   display_controls,
-  display_flag_count_header,
-  display_victory_message,
-  display_defeat_message
+  display_mine_count_header,
+  display_game_over_message
 };
 pub use buffer::Buffer;
 

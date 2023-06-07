@@ -104,8 +104,8 @@ impl Game {
   // FIXME: testing
   pub fn foo(&mut self) {
     let mut buffer = Buffer::new();
-    util::display_flag_count_header(&mut buffer);
-    util::display_sevseg(&mut buffer, 5, self.flag_count);
+    util::display_mine_count_header(&mut buffer);
+    util::display_sevseg(&mut buffer, 5, self.num_mines - self.flag_count);
     buffer.display_buffer();
   }
 
@@ -146,6 +146,9 @@ impl Game {
   }
 
   fn toggle_flag(&mut self, flag_i: u8, flag_j: u8) {
+    if self.flag_count >= self.num_mines {
+      return
+    }
     let mut cell = self.get_cell(flag_i, flag_j);
     if !cell.hidden {
       return
@@ -170,27 +173,30 @@ impl Game {
   }
 
   pub fn display_game(&self) {
-    unimplemented!("display_game() not implemented");
     let mut buffer = Buffer::new();
     // display field
-    // display flag count header
-    util::display_flag_count_header(&mut buffer);
-    // display flag count sevseg
+    self.display_field();
+
+    // display mine count
+    buffer.go_to_line(0);
+    util::display_mine_count_header(&mut buffer);
+    util::display_sevseg(&mut buffer, 5, self.num_mines - self.flag_count);
+
     match self.game_state {
       GameState::WON => {
-        util::display_victory_message();
+        util::display_game_over_message(&mut buffer, true);
       }
       GameState::LOST => {
-        util::display_defeat_message();
+        util::display_game_over_message(&mut buffer, false);
       }
       GameState::RUNNING => {
-        util::display_controls();
+        util::display_controls(&mut buffer);
       }
     }
     buffer.display_buffer();
   }
 
-  fn diplay_field(&self) {
+  fn display_field(&self) {
     unimplemented!("display_field() not implemented");
   }
 }
