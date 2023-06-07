@@ -1,10 +1,9 @@
 use crate::util;
-use indoc::indoc;
 use colored::Colorize;
 use std::io::{self, Write};
 
 /* Display Minesweeper banner */
-pub fn displayBanner() {
+pub fn display_banner() {
   println!(
     "{}",
     ("
@@ -20,11 +19,11 @@ pub fn displayBanner() {
 }
 
 /* Get gamemode, returns enum variant */
-pub fn getGameMode() -> util::GameMode {
+pub fn get_game_mode() -> util::GameMode {
   let mut line = String::new();
   loop {
-    util::clearScreen();
-    displayBanner();
+    util::clear_screen();
+    display_banner();
 
     // print game mode prompt
     let indent = 20;
@@ -53,17 +52,16 @@ pub fn getGameMode() -> util::GameMode {
         continue;
       }
     }
-    break;
   }
   util::GameMode::BEGINNER
 }
 
 /* Get quick clear settings */
-pub fn getQuickClearSettings() -> bool {
+pub fn get_quick_clear_settings() -> bool {
   let mut line = String::new();
   loop {
-    util::clearScreen();
-    displayBanner();
+    util::clear_screen();
+    display_banner();
 
     // print quick clear prompt
     print!(
@@ -93,7 +91,6 @@ pub fn getQuickClearSettings() -> bool {
         continue;
       }
     }
-    break;
   }
   false
 }

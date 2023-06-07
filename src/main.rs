@@ -4,14 +4,14 @@ mod game;
 
 fn main() {
   // util::clearScreen();
-  let gameMode = display::getGameMode();
-  let quickClearEnabled = display::getQuickClearSettings();
+  let game_mode = display::get_game_mode();
+  let quick_clear_enabled = display::get_quick_clear_settings();
 
   // start game
 
   // while (true) {
   //   util::clearScreen();
-  //   displayBanner()
+  //   display_banner()
   //   displayField()
   //   displayFlagCount()
 

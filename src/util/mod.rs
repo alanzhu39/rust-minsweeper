@@ -8,6 +8,6 @@ pub enum GameMode {
   CUSTOM
 }
 
-pub fn clearScreen() {
+pub fn clear_screen() {
   clearscreen::clear().expect("failed to clear screen")
 }

@@ -44,10 +44,19 @@ Brainstorm:
   - game play, field active
   - game over display, quit or replay
 
+6/6/23:
+In progress:
+- game struct
+- main game loop
+
 6/5/23:
 In progress:
 - more skeleton
 - display functions
+
+Finished:
+- gamemode prompt
+- quick clear settings prompt
 
 5/30/23:
 In progress:
