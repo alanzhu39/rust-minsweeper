@@ -3,6 +3,11 @@ mod setup;
 mod game;
 
 fn main() {
+  // FIXME: debugging
+  // let mut curr_game = game::Game::start_game(util::GameMode::BEGINNER, false);
+  // curr_game.sweep_cell(0, 0);
+  // return;
+
   util::clear_screen();
   let game_mode = setup::get_game_mode();
   let quick_clear_enabled = setup::get_quick_clear_settings();

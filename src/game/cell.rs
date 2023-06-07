@@ -1,16 +1,16 @@
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub enum CellState {
   EMPTY,
   MINE,
   ADJ_TO_MINE
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Cell {
-  flagged: bool,
-  hidden: bool,
-  state: CellState,
-  num_adj_mines: u8
+  pub flagged: bool,
+  pub hidden: bool,
+  pub state: CellState,
+  pub num_adj_mines: u8
 }
 
 impl Cell {

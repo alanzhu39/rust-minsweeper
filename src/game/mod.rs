@@ -2,6 +2,7 @@ mod cell;
 
 use crate::util;
 use crate::util::{GameMode, Key};
+use cell::Cell;
 
 pub enum GameState {
   RUNNING,
@@ -10,7 +11,7 @@ pub enum GameState {
 }
 
 pub struct Game {
-  field: Vec<Vec<cell::Cell>>,
+  field: Vec<Vec<Cell>>,
 
   game_state: GameState,
   game_mode: GameMode,
@@ -43,7 +44,7 @@ impl Game {
       }
     };
 
-    let field = vec![vec![cell::Cell::new(); width as usize]; height as usize];
+    let field = vec![vec![Cell::new(); width as usize]; height as usize];
 
     Game {
       field,
@@ -96,24 +97,34 @@ impl Game {
     }
   }
 
-  fn sweep_cell(&self, sweep_i: u8, sweep_j: u8) {
+  fn get_cell(&mut self, i: u8, j: u8) -> &mut Cell {
+    &mut self.field[i as usize][j as usize]
+  }
+
+  fn sweep_cell(&mut self, sweep_i: u8, sweep_j: u8) {
     unimplemented!("sweep_cell() not implemented");
     if self.is_first_sweep {
       self.do_first_sweep(sweep_i, sweep_j);
       self.is_first_sweep = false;
       return
     }
-    // if cell is flagged, pass
-    // else, logic
+    let mut cell = self.get_cell(sweep_i, sweep_j);
+    if cell.hidden && !cell.flagged {
+      cell.hidden = false;
+      cell.flagged = true;
+      if self.flag_count > 0 {
+        self.flag_count -= 1;
+      }
+    }
   }
 
-  fn flag_cell(&self, flag_i: u8, flag_j: u8) {
+  fn flag_cell(&mut self, flag_i: u8, flag_j: u8) {
     unimplemented!("flag_cell() not implemented");
     // if cell is hidden, flag it
     // else, pass
   }
 
-  fn do_first_sweep(&self, sweep_i: u8, sweep_j: u8) {
+  fn do_first_sweep(&mut self, sweep_i: u8, sweep_j: u8) {
     unimplemented!("do_first_sweep() not implemented");
     // randomly populate field with mines, such that no mines are within the 3x3 block around the first sweep
     // update all surrounding cells w adj mine counts
