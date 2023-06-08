@@ -88,7 +88,7 @@ impl Game {
         }
       }
       Some(Key::K_S) => {
-        self.sweep_cell(self.i, self.j);
+        self.sweep_cell(self.i, self.j, self.quick_clear_enabled);
       }
       Some(Key::K_F) => {
         self.toggle_flag(self.i, self.j);
@@ -109,33 +109,46 @@ impl Game {
     buffer.display_buffer();
   }
 
-  fn sweep_cell(&mut self, sweep_i: u8, sweep_j: u8) {
+  fn sweep_cell(&mut self, sweep_i: u8, sweep_j: u8, quick_clear: bool) {
     unimplemented!("sweep_cell() not implemented");
     let cell = self.get_cell(sweep_i, sweep_j);
     if cell.flagged {
-      return
+      return;
     }
     if self.is_first_sweep {
       self.do_first_sweep(sweep_i, sweep_j);
       self.is_first_sweep = false;
-      return
+      return;
     }
 
     let mut cell = self.get_cell(sweep_i, sweep_j);
     match cell.state {
       CellState::EMPTY => {
-        // if cell is hidden, reveal cell and all neighboring empty cells & cells adj to mines
-        // else pass
+        if cell.hidden {
+          cell.hidden = false;
+          self.sweep_empty_cell(sweep_i, sweep_j);
+        }
       }
       CellState::MINE => {
-        // if cell is hidden, reveal cell, game over
-        // else pass
+        if cell.hidden {
+          // reveal cell
+          // reveal all mines?
+          self.game_state = GameState::LOST;
+        }
       }
       CellState::ADJ_TO_MINE => {
-        // if cell is hidden, reveal cell
-        // else if quick clear enabled, do quick clear
+        if cell.hidden {
+          cell.hidden = false;
+        } else if quick_clear {
+          self.sweep_quick_clear(sweep_i, sweep_j);
+        }
       }
     }
+  }
+
+  fn sweep_empty_cell(&mut self, sweep_i: u8, sweep_j: u8) {
+    unimplemented!("sweep empty cell not implemented");
+    // bfs through neighboring cells
   }
 
   fn sweep_quick_clear(&mut self, sweep_i: u8, sweep_j: u8) {
@@ -145,13 +158,19 @@ impl Game {
     // reveal all adj cells
   }
 
+  fn do_first_sweep(&mut self, sweep_i: u8, sweep_j: u8) {
+    unimplemented!("do_first_sweep() not implemented");
+    // randomly populate field with mines, such that no mines are within the 3x3 block around the first sweep
+    // update all surrounding cells w adj mine counts
+  }
+
   fn toggle_flag(&mut self, flag_i: u8, flag_j: u8) {
     if self.flag_count >= self.num_mines {
-      return
+      return;
     }
     let mut cell = self.get_cell(flag_i, flag_j);
     if !cell.hidden {
-      return
+      return;
     }
     if cell.flagged {
       cell.flagged = false;
@@ -160,12 +179,6 @@ impl Game {
       cell.flagged = true;
       self.flag_count += 1;
     }
-  }
-
-  fn do_first_sweep(&mut self, sweep_i: u8, sweep_j: u8) {
-    unimplemented!("do_first_sweep() not implemented");
-    // randomly populate field with mines, such that no mines are within the 3x3 block around the first sweep
-    // update all surrounding cells w adj mine counts
   }
 
   pub fn is_running(&self) -> bool {
