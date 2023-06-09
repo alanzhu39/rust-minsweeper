@@ -158,20 +158,20 @@ impl Game {
   // FIXME: testing
   pub fn foo(&mut self) {
     let mut buffer = Buffer::new();
-    let mut cell = self.get_cell(0, 0);
+    let mut cell = self.get_mut_cell(0, 0);
     cell.hidden = false;
 
     for n in 1..9 {
-      let mut cell = self.get_cell(0, n);
+      let mut cell = self.get_mut_cell(0, n);
       cell.hidden = false;
       cell.state = CellState::ADJ_TO_MINE;
       cell.num_adj_mines = n;
     }
 
-    let mut cell = self.get_cell(1, 0);
+    let mut cell = self.get_mut_cell(1, 0);
     cell.hidden = false;
     cell.state = CellState::MINE;
-    let mut cell = self.get_cell(1, 1);
+    let mut cell = self.get_mut_cell(1, 1);
     cell.flagged = true;
 
     self.display_field(&mut buffer);
@@ -259,9 +259,6 @@ impl Game {
   }
 
   fn do_first_sweep(&mut self, sweep_i: i32, sweep_j: i32) {
-    // randomly populate field with mines, such that no mines are within the 3x3 block around the first sweep
-    // update all surrounding cells w adj mine counts
-    // sweep first cell
     let mut num_mines_planted = 0;
     let mut rng = rand::thread_rng();
     let mine_dist = Uniform::from(0..self.width * self.height);
@@ -453,7 +450,7 @@ impl Game {
         let mut cell_str = " ".normal();
         if cell.hidden {
           if cell.flagged {
-            cell_str = "▶".green();
+            cell_str = "▶".bold().green();
           } else {
             cell_str = " ".on_white();
           }
