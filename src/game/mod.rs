@@ -98,10 +98,15 @@ impl Game {
       }
       _ => {}
     }
+    // update game state
   }
 
-  fn get_cell(&mut self, cell_i: i32, cell_j: i32) -> &mut Cell {
+  fn get_mut_cell(&mut self, cell_i: i32, cell_j: i32) -> &mut Cell {
     &mut self.field[cell_i as usize][cell_j as usize]
+  }
+
+  fn get_cell(&self, cell_i: i32, cell_j: i32) -> &Cell {
+    &self.field[cell_i as usize][cell_j as usize]
   }
 
   fn get_adj_cells(&self, cell_i: i32, cell_j: i32) -> Vec<(i32, i32)> {
@@ -118,17 +123,6 @@ impl Game {
       }
     }
     adj_cells
-  }
-
-  fn get_num_adj_mines(&self, cell_i: i32, cell_j: i32) -> i32 {
-    let mut num_adj_mines = 0;
-    for (adj_i, adj_j) in self.get_adj_cells(cell_i, cell_j) {
-      let cell = self.get_cell(adj_i, adj_j);
-      if matches!(cell.state, CellState::MINE) {
-        num_adj_mines += 1;
-      }
-    }
-    num_adj_mines
   }
 
   fn get_num_adj_flagged_cells(&self, cell_i: i32, cell_j: i32) -> i32 {
@@ -161,7 +155,7 @@ impl Game {
       return;
     }
 
-    let mut cell = self.get_cell(sweep_i, sweep_j);
+    let mut cell = self.get_mut_cell(sweep_i, sweep_j);
     match cell.state {
       CellState::EMPTY => {
         if cell.hidden {
@@ -188,7 +182,7 @@ impl Game {
   fn reveal_all_mines(&mut self) {
     for i in 0..self.height {
       for j in 0..self.width {
-        let mut cell = self.get_cell(i, j);
+        let mut cell = self.get_mut_cell(i, j);
         if matches!(cell.state, CellState::MINE) {
           cell.hidden = false;
         }
@@ -203,7 +197,7 @@ impl Game {
     Q.push_back((sweep_i, sweep_j));
     while !Q.is_empty() {
       let (i, j) = Q.pop_front().unwrap();
-      let mut cell = self.get_cell(i, j);
+      let mut cell = self.get_mut_cell(i, j);
       if matches!(cell.state, CellState::ADJ_TO_MINE) {
         cell.hidden = false;
       } else if matches!(cell.state, CellState::EMPTY) {
@@ -219,7 +213,7 @@ impl Game {
   }
 
   fn sweep_quick_clear(&mut self, sweep_i: i32, sweep_j: i32) {
-    let mut cell = self.get_cell(sweep_i, sweep_j);
+    let mut cell = self.get_mut_cell(sweep_i, sweep_j);
     if cell.num_adj_mines == self.get_num_adj_flagged_cells(sweep_i, sweep_j) {
       for (adj_i, adj_j) in self.get_adj_cells(sweep_i, sweep_j) {
         self.sweep_cell(adj_i, adj_j, false);
@@ -241,13 +235,13 @@ impl Game {
       if (mine_i - sweep_i).abs() <= 1 && (mine_j - sweep_j).abs() <= 1 {
         continue;
       }
-      let mut cell = self.get_cell(mine_i, mine_j);
+      let mut cell = self.get_mut_cell(mine_i, mine_j);
       if matches!(cell.state, CellState::EMPTY) {
         cell.state = CellState::MINE;
         num_mines_planted += 1;
 
         for (adj_i, adj_j) in self.get_adj_cells(mine_i, mine_j) {
-          let mut adj_cell = self.get_cell(adj_i, adj_j);
+          let mut adj_cell = self.get_mut_cell(adj_i, adj_j);
           if matches!(adj_cell.state, CellState::EMPTY) {
             adj_cell.state = CellState::ADJ_TO_MINE;
           }
@@ -262,7 +256,7 @@ impl Game {
     if self.flag_count >= self.num_mines {
       return;
     }
-    let mut cell = self.get_cell(flag_i, flag_j);
+    let mut cell = self.get_mut_cell(flag_i, flag_j);
     if !cell.hidden {
       return;
     }
@@ -304,7 +298,6 @@ impl Game {
   }
 
   fn display_field(&self, buffer: &mut Buffer) {
-    unimplemented!("display_field() not implemented");
     for i in 0..self.height {
       for j in 0..self.width {
         let cell = self.get_cell(i, j);
@@ -378,6 +371,29 @@ impl Game {
               (false, false, false, false) => {
                 buffer.writeln("┼───".normal());
               }
+              _ => {}
+            }
+          }
+        }
+        // draw top right
+        if j == self.width - 1 {
+          buffer.go_to_line(buffer.get_curr_line() - 1);
+          if i == 0 {
+            if cell.hidden {
+              buffer.writeln("┓".normal());
+            } else {
+              buffer.writeln("┐".normal());
+            }
+          } else {
+            let top_cell = self.get_cell(i - 1, j);
+            if top_cell.hidden && cell.hidden {
+              buffer.writeln("┫".normal());
+            } else if top_cell.hidden && !cell.hidden {
+              buffer.writeln("┩".normal());
+            } else if !top_cell.hidden && cell.hidden {
+              buffer.writeln("┪".normal());
+            } else {
+              buffer.writeln("┤".normal());
             }
           }
         }
@@ -403,16 +419,37 @@ impl Game {
           buffer.write(" ".on_white());
         }
         buffer.writeln(" ".normal());
+        // draw right
+        if j == self.width - 1 {
+          buffer.go_to_line(buffer.get_curr_line() - 1);
+          if cell.hidden {
+            buffer.writeln("┃".normal());
+          } else {
+            buffer.writeln("│".normal());
+          }
+        }
+        // draw bottom
+        if i == self.height - 1 {
+          if j == 0 {
+            if cell.hidden {
+              buffer.writeln("    ┗━━━".normal());
+            } else {
+              buffer.writeln("    └───".normal());
+            }
+          } else {
+            let left_cell = self.get_cell(i, j - 1);
+            if left_cell.hidden && cell.hidden {
+              buffer.writeln("┻━━━".normal());
+            } else if left_cell.hidden && !cell.hidden {
+              buffer.writeln("┹───".normal());
+            } else if !left_cell.hidden && cell.hidden {
+              buffer.writeln("┺━━━".normal());
+            } else {
+              buffer.writeln("┴───".normal());
+            }
+          }
+        }
       }
-      // draw top right
-      // draw right
     }
-    // draw bottom
-    // for each row, draw top edge, then draw row
-      // if first row, draw top edge specially
-      // for each col, draw left edge, then draw cell
-        // if first col, draw left edge specially
-        // draw right edge
-    // draw bottom edge
   }
 }
