@@ -98,7 +98,13 @@ impl Game {
       }
       _ => {}
     }
-    // update game state
+    self.update_game_state();
+  }
+
+  fn update_game_state(&mut self) {
+    if matches!(self.game_state, GameState::RUNNING) && self.get_num_hidden_cells() == self.num_mines {
+      self.game_state = GameState::WON;
+    }
   }
 
   fn get_mut_cell(&mut self, cell_i: i32, cell_j: i32) -> &mut Cell {
@@ -134,6 +140,19 @@ impl Game {
       }
     }
     num_adj_flagged_cells
+  }
+
+  fn get_num_hidden_cells(&self) -> i32 {
+    let mut num_hidden_cells = 0;
+    for i in 0..self.height {
+      for j in 0..self.width {
+        let cell = self.get_cell(i, j);
+        if cell.hidden {
+          num_hidden_cells += 1;
+        }
+      }
+    }
+    num_hidden_cells
   }
 
   // FIXME: testing
@@ -298,6 +317,7 @@ impl Game {
   }
 
   fn display_field(&self, buffer: &mut Buffer) {
+    // TODO: display flags, display mines, display adj mine count
     for i in 0..self.height {
       for j in 0..self.width {
         let cell = self.get_cell(i, j);
