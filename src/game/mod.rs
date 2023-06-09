@@ -187,8 +187,8 @@ impl Game {
       return;
     }
     if self.is_first_sweep {
-      self.do_first_sweep(sweep_i, sweep_j);
       self.is_first_sweep = false;
+      self.do_first_sweep(sweep_i, sweep_j);
       return;
     }
 
