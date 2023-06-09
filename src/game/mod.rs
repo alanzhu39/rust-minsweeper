@@ -396,7 +396,7 @@ impl Game {
               (false, true, true, false) => {
                 buffer.writeln("╆━━━".normal());
               }
-              (false, true, true, true) => {
+              (true, true, true, false) => {
                 buffer.writeln("╊━━━".normal());
               }
               (false, true, true, true) => {
