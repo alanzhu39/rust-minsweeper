@@ -186,6 +186,7 @@ impl Game {
     if cell.flagged {
       return;
     }
+
     if self.is_first_sweep {
       self.is_first_sweep = false;
       self.do_first_sweep(sweep_i, sweep_j);
@@ -378,29 +379,29 @@ impl Game {
               (true, true, true, true) => {
                 buffer.writeln("╋━━━".normal());
               }
-              (true, false, false, false) => {
-                buffer.writeln("╃───".normal());
-              } 
-              (true, false, true, true) => {
-                buffer.writeln("╉───".normal());
-              } 
               (true, true, false, true) => {
                 buffer.writeln("╇━━━".normal());
-              }
-              (true, true, false, false) => {
-                buffer.writeln("╄━━━".normal());
-              }
-              (false, false, true, true) => {
-                buffer.writeln("╅───".normal());
-              }
-              (false, true, true, false) => {
-                buffer.writeln("╆━━━".normal());
               }
               (true, true, true, false) => {
                 buffer.writeln("╊━━━".normal());
               }
               (false, true, true, true) => {
                 buffer.writeln("╈━━━".normal());
+              }
+              (true, false, true, true) => {
+                buffer.writeln("╉───".normal());
+              } 
+              (true, false, false, true) => {
+                buffer.writeln("╃───".normal());
+              } 
+              (true, true, false, false) => {
+                buffer.writeln("╄━━━".normal());
+              }
+              (false, true, true, false) => {
+                buffer.writeln("╆━━━".normal());
+              }
+              (false, false, true, true) => {
+                buffer.writeln("╅───".normal());
               }
               (false, false, false, false) => {
                 buffer.writeln("┼───".normal());
