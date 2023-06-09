@@ -4,6 +4,7 @@ use crate::util;
 use crate::util::{Buffer, GameMode, Key};
 use cell::{Cell, CellState};
 use std::collections::{VecDeque, HashSet};
+use rand::distributions::{Distribution, Uniform};
 
 pub enum GameState {
   RUNNING,
@@ -226,9 +227,34 @@ impl Game {
   }
 
   fn do_first_sweep(&mut self, sweep_i: i32, sweep_j: i32) {
-    unimplemented!("do_first_sweep() not implemented");
     // randomly populate field with mines, such that no mines are within the 3x3 block around the first sweep
     // update all surrounding cells w adj mine counts
+    // sweep first cell
+    let mut num_mines_planted = 0;
+    let mut rng = rand::thread_rng();
+    let mine_dist = Uniform::from(0..self.width * self.height);
+    while num_mines_planted < self.num_mines {
+      let mine_idx = mine_dist.sample(&mut rng);
+      let mine_i = mine_idx / self.width;
+      let mine_j = mine_idx % self.width;
+      if (mine_i - sweep_i).abs() <= 1 && (mine_j - sweep_j).abs() <= 1 {
+        continue;
+      }
+      let mut cell = self.get_cell(mine_i, mine_j);
+      if matches!(cell.state, CellState::EMPTY) {
+        cell.state = CellState::MINE;
+        num_mines_planted += 1;
+
+        for (adj_i, adj_j) in self.get_adj_cells(mine_i, mine_j) {
+          let mut adj_cell = self.get_cell(adj_i, adj_j);
+          if matches!(adj_cell.state, CellState::EMPTY) {
+            adj_cell.state = CellState::ADJ_TO_MINE;
+          }
+          adj_cell.num_adj_mines += 1;
+        }
+      }
+    }
+    self.sweep_cell(sweep_i, sweep_j, self.quick_clear_enabled);
   }
 
   fn toggle_flag(&mut self, flag_i: i32, flag_j: i32) {
