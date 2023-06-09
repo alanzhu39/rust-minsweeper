@@ -10,7 +10,7 @@ pub struct Cell {
   pub flagged: bool,
   pub hidden: bool,
   pub state: CellState,
-  pub num_adj_mines: u8
+  pub num_adj_mines: i32
 }
 
 impl Cell {

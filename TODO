@@ -44,6 +44,15 @@ Brainstorm:
   - game play, field active
   - game over display, quit or replay
 
+6/8/23:
+In progress:
+- game display functions: prob need to add a write buffer for this
+  - display field
+  - display flag counter
+- game logic
+  - first sweep
+  - sweeps
+
 6/7/23:
 In progress:
 - game display functions: prob need to add a write buffer for this
@@ -52,8 +61,11 @@ In progress:
 - game logic
   - first sweep
   - sweeps
-  - flagging
-  - navigation
+
+Finished:
+- write buffer
+- flagging
+- navigation
 
 6/6/23:
 In progress:

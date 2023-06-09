@@ -3,6 +3,7 @@ mod cell;
 use crate::util;
 use crate::util::{Buffer, GameMode, Key};
 use cell::{Cell, CellState};
+use std::collections::{VecDeque, HashSet};
 
 pub enum GameState {
   RUNNING,
@@ -18,13 +19,13 @@ pub struct Game {
   quick_clear_enabled: bool,
   is_first_sweep: bool,
 
-  width: u8,
-  height: u8,
-  num_mines: u8,
-  flag_count: u8,
+  width: i32,
+  height: i32,
+  num_mines: i32,
+  flag_count: i32,
 
-  i: u8,
-  j: u8
+  i: i32,
+  j: i32
 }
 
 impl Game {
@@ -97,8 +98,24 @@ impl Game {
     }
   }
 
-  fn get_cell(&mut self, cell_i: u8, cell_j: u8) -> &mut Cell {
+  fn get_cell(&mut self, cell_i: i32, cell_j: i32) -> &mut Cell {
     &mut self.field[cell_i as usize][cell_j as usize]
+  }
+
+  fn get_adj_cells(&self, cell_i: i32, cell_j: i32) -> Vec<(i32, i32)> {
+    let mut adj_cells = Vec::new();
+    for i in cell_i - 1..cell_i + 2 {
+      for j in cell_j - 1..cell_j + 2 {
+        if i == cell_i && j == cell_j {
+          continue;
+        }
+        if i < 0 || i >= self.height || j < 0 || j >= self.width {
+          continue;
+        }
+        adj_cells.push((i, j));
+      }
+    }
+    adj_cells
   }
 
   // FIXME: testing
@@ -109,8 +126,7 @@ impl Game {
     buffer.display_buffer();
   }
 
-  fn sweep_cell(&mut self, sweep_i: u8, sweep_j: u8, quick_clear: bool) {
-    unimplemented!("sweep_cell() not implemented");
+  fn sweep_cell(&mut self, sweep_i: i32, sweep_j: i32, quick_clear: bool) {
     let cell = self.get_cell(sweep_i, sweep_j);
     if cell.flagged {
       return;
@@ -131,8 +147,7 @@ impl Game {
       }
       CellState::MINE => {
         if cell.hidden {
-          // reveal cell
-          // reveal all mines?
+          self.reveal_all_mines();
           self.game_state = GameState::LOST;
         }
       }
@@ -146,25 +161,55 @@ impl Game {
     }
   }
 
-  fn sweep_empty_cell(&mut self, sweep_i: u8, sweep_j: u8) {
-    unimplemented!("sweep empty cell not implemented");
-    // bfs through neighboring cells
+  fn reveal_all_mines(&mut self) {
+    for i in 0..self.height {
+      for j in 0..self.width {
+        let mut cell = self.get_cell(i, j);
+        if matches!(cell.state, CellState::MINE) {
+          cell.hidden = false;
+        }
+      }
+    }
   }
 
-  fn sweep_quick_clear(&mut self, sweep_i: u8, sweep_j: u8) {
+  fn sweep_empty_cell(&mut self, sweep_i: i32, sweep_j: i32) {
+    let mut Q = VecDeque::new();
+    let mut explored = HashSet::new();
+    explored.insert((sweep_i, sweep_j));
+    Q.push_back((sweep_i, sweep_j));
+    while !Q.is_empty() {
+      let (i, j) = Q.pop_front().unwrap();
+      let mut cell = self.get_cell(i, j);
+      if matches!(cell.state, CellState::ADJ_TO_MINE) {
+        cell.hidden = false;
+      } else if matches!(cell.state, CellState::EMPTY) {
+        cell.hidden = false;
+        for (adj_i, adj_j) in self.get_adj_cells(i, j) {
+          if !explored.contains(&(adj_i, adj_j)) {
+            explored.insert((adj_i, adj_j));
+            Q.push_back((adj_i, adj_j));
+          }
+        }
+      }
+    }
+  }
+
+  fn sweep_quick_clear(&mut self, sweep_i: i32, sweep_j: i32) {
     unimplemented!("sweep_quick_clear() not implemented");
-    // if cell is revealed and has adj mine count
+    let mut cell = self.get_cell(sweep_i, sweep_j);
+    
+
     // if cell has adj mine count == num of flagged adj cells
     // reveal all adj cells
   }
 
-  fn do_first_sweep(&mut self, sweep_i: u8, sweep_j: u8) {
+  fn do_first_sweep(&mut self, sweep_i: i32, sweep_j: i32) {
     unimplemented!("do_first_sweep() not implemented");
     // randomly populate field with mines, such that no mines are within the 3x3 block around the first sweep
     // update all surrounding cells w adj mine counts
   }
 
-  fn toggle_flag(&mut self, flag_i: u8, flag_j: u8) {
+  fn toggle_flag(&mut self, flag_i: i32, flag_j: i32) {
     if self.flag_count >= self.num_mines {
       return;
     }

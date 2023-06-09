@@ -38,7 +38,6 @@ pub fn clear_screen() {
 
 pub fn get_key() -> Option<Key> {
   let ch = Getch::new().getch().unwrap();
-  // println!("{}", ch);
   match ch {
     b'k' => return Some(Key::K_UP),
     b'j' => return Some(Key::K_DOWN),
