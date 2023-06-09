@@ -222,7 +222,7 @@ impl Game {
     for i in 0..self.height {
       for j in 0..self.width {
         let mut cell = self.get_mut_cell(i, j);
-        if matches!(cell.state, CellState::MINE) {
+        if matches!(cell.state, CellState::MINE) && !cell.flagged {
           cell.hidden = false;
         }
       }
