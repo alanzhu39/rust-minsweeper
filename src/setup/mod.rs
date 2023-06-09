@@ -18,7 +18,7 @@ pub fn get_game_mode() -> GameMode {
     println!("{:indent$}{}", "", "1. Beginner".bold().green());
     println!("{:indent$}{}", "", "2. Intermediate".bold().yellow());
     println!("{:indent$}{}", "", "3. Expert".bold().red());
-    println!("{:indent$}{}", "", "4. Custom".bold().blue());
+    // println!("{:indent$}{}", "", "4. Custom".bold().blue());
     println!("");
     print!("{:indent$}", "");
     io::stdout().flush().unwrap();

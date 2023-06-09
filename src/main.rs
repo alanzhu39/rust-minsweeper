@@ -4,9 +4,9 @@ mod game;
 
 fn main() {
   // FIXME: debugging
-  // let mut curr_game = game::Game::start_game(util::GameMode::BEGINNER, false);
-  // curr_game.foo();
-  // return;
+  let mut curr_game = game::Game::start_game(util::GameMode::BEGINNER, false);
+  curr_game.foo();
+  return;
 
   util::clear_screen();
   let game_mode = setup::get_game_mode();

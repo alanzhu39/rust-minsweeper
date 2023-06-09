@@ -465,25 +465,25 @@ impl Game {
             CellState::ADJ_TO_MINE => {
               match cell.num_adj_mines {
                 1 => {
-                  cell_str = "1".bold().cyan();
+                  cell_str = "1".bold().bright_cyan();
                 }
                 2 => {
-                  cell_str = "2".bold().green();
+                  cell_str = "2".bold().bright_green();
                 }
                 3 => {
                   cell_str = "3".bold().red();
                 }
                 4 => {
-                  cell_str = "4".bold().blue();
+                  cell_str = "4".bold().bright_blue();
                 }
                 5 => {
-                  cell_str = "5".bold().magenta();
+                  cell_str = "5".bold().bright_magenta();
                 }
                 6 => {
-                  cell_str = "6".bold().bright_cyan();
+                  cell_str = "6".bold().cyan();
                 }
                 7 => {
-                  cell_str = "7".bold().bright_magenta();
+                  cell_str = "7".bold().magenta();
                 }
                 8 => {
                   cell_str = "8".bold().bright_black();
