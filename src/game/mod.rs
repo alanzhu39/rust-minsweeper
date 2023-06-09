@@ -104,6 +104,7 @@ impl Game {
   fn update_game_state(&mut self) {
     if matches!(self.game_state, GameState::RUNNING) && self.get_num_hidden_cells() == self.num_mines {
       self.game_state = GameState::WON;
+      self.reveal_all_mines();
     }
   }
 
@@ -288,9 +289,7 @@ impl Game {
   }
 
   fn toggle_flag(&mut self, flag_i: i32, flag_j: i32) {
-    if self.flag_count >= self.num_mines {
-      return;
-    }
+    let max_flags = self.flag_count == self.num_mines;
     let mut cell = self.get_mut_cell(flag_i, flag_j);
     if !cell.hidden {
       return;
@@ -298,7 +297,7 @@ impl Game {
     if cell.flagged {
       cell.flagged = false;
       self.flag_count -= 1;
-    } else {
+    } else if !max_flags {
       cell.flagged = true;
       self.flag_count += 1;
     }
