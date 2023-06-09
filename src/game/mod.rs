@@ -158,6 +158,22 @@ impl Game {
   // FIXME: testing
   pub fn foo(&mut self) {
     let mut buffer = Buffer::new();
+    let mut cell = self.get_cell(0, 0);
+    cell.hidden = false;
+
+    for n in 1..9 {
+      let mut cell = self.get_cell(0, n);
+      cell.hidden = false;
+      cell.state = CellState::ADJ_TO_MINE;
+      cell.num_adj_mines = n;
+    }
+
+    let mut cell = self.get_cell(1, 0);
+    cell.hidden = false;
+    cell.state = CellState::MINE;
+    let mut cell = self.get_cell(1, 1);
+    cell.flagged = true;
+
     self.display_field(&mut buffer);
     buffer.go_to_line(0);
     util::display_mine_count_header(&mut buffer);
@@ -319,7 +335,6 @@ impl Game {
   }
 
   fn display_field(&self, buffer: &mut Buffer) {
-    // TODO: display flags, display mines, display adj mine count
     for i in 0..self.height {
       for j in 0..self.width {
         let cell = self.get_cell(i, j);
