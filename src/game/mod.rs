@@ -118,6 +118,28 @@ impl Game {
     adj_cells
   }
 
+  fn get_num_adj_mines(&self, cell_i: i32, cell_j: i32) -> i32 {
+    let mut num_adj_mines = 0;
+    for (adj_i, adj_j) in self.get_adj_cells(cell_i, cell_j) {
+      let cell = self.get_cell(adj_i, adj_j);
+      if matches!(cell.state, CellState::MINE) {
+        num_adj_mines += 1;
+      }
+    }
+    num_adj_mines
+  }
+
+  fn get_num_adj_flagged_cells(&self, cell_i: i32, cell_j: i32) -> i32 {
+    let mut num_adj_flagged_cells = 0;
+    for (adj_i, adj_j) in self.get_adj_cells(cell_i, cell_j) {
+      let cell = self.get_cell(adj_i, adj_j);
+      if cell.flagged {
+        num_adj_flagged_cells += 1;
+      }
+    }
+    num_adj_flagged_cells
+  }
+
   // FIXME: testing
   pub fn foo(&mut self) {
     let mut buffer = Buffer::new();
@@ -195,12 +217,12 @@ impl Game {
   }
 
   fn sweep_quick_clear(&mut self, sweep_i: i32, sweep_j: i32) {
-    unimplemented!("sweep_quick_clear() not implemented");
     let mut cell = self.get_cell(sweep_i, sweep_j);
-    
-
-    // if cell has adj mine count == num of flagged adj cells
-    // reveal all adj cells
+    if cell.num_adj_mines == self.get_num_adj_flagged_cells(sweep_i, sweep_j) {
+      for (adj_i, adj_j) in self.get_adj_cells(sweep_i, sweep_j) {
+        self.sweep_cell(adj_i, adj_j, false);
+      }
+    }
   }
 
   fn do_first_sweep(&mut self, sweep_i: i32, sweep_j: i32) {
