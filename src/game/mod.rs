@@ -433,10 +433,55 @@ impl Game {
           }
         }
         // draw cell
+        let mut cell_str = " ".normal();
         if cell.hidden {
-          buffer.write(" ".on_blue());
+          if cell.flagged {
+            cell_str = "▶".green();
+          } else {
+            cell_str = " ".on_white();
+          }
         } else {
+          match cell.state {
+            CellState::EMPTY => {
+              cell_str = " ".normal();
+            }
+            CellState::MINE => {
+              cell_str = "*".bold().red();
+            }
+            CellState::ADJ_TO_MINE => {
+              match cell.num_adj_mines {
+                1 => {
+                  cell_str = "1".bold().cyan();
+                }
+                2 => {
+                  cell_str = "2".bold().green();
+                }
+                3 => {
+                  cell_str = "3".bold().red();
+                }
+                4 => {
+                  cell_str = "4".bold().blue();
+                }
+                5 => {
+                  cell_str = "5".bold().magenta();
+                }
+                6 => {
+                  cell_str = "6".bold().bright_cyan();
+                }
+                7 => {
+                  cell_str = "7".bold().bright_magenta();
+                }
+                8 => {
+                  cell_str = "8".bold().bright_black();
+                }
+                _ => {}
+              }
+            }
+          }
           buffer.write(" ".on_white());
+        }
+        if self.i == i && self.j == j {
+          cell_str = cell_str.on_blue();
         }
         buffer.writeln(" ".normal());
         // draw right
