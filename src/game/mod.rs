@@ -272,9 +272,10 @@ impl Game {
         continue;
       }
       let mut cell = self.get_mut_cell(mine_i, mine_j);
-      if matches!(cell.state, CellState::EMPTY) {
+      if !matches!(cell.state, CellState::MINE) {
         cell.state = CellState::MINE;
         num_mines_planted += 1;
+        println!("{}", num_mines_planted.to_string());
 
         for (adj_i, adj_j) in self.get_adj_cells(mine_i, mine_j) {
           let mut adj_cell = self.get_mut_cell(adj_i, adj_j);
