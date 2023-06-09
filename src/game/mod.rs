@@ -158,6 +158,8 @@ impl Game {
   // FIXME: testing
   pub fn foo(&mut self) {
     let mut buffer = Buffer::new();
+    self.display_field(&mut buffer);
+    buffer.go_to_line(0);
     util::display_mine_count_header(&mut buffer);
     util::display_sevseg(&mut buffer, 5, self.num_mines - self.flag_count);
     buffer.display_buffer();
@@ -478,11 +480,11 @@ impl Game {
               }
             }
           }
-          buffer.write(" ".on_white());
         }
         if self.i == i && self.j == j {
           cell_str = cell_str.on_blue();
         }
+        buffer.write(cell_str);
         buffer.writeln(" ".normal());
         // draw right
         if j == self.width - 1 {
@@ -492,6 +494,8 @@ impl Game {
           } else {
             buffer.writeln("│".normal());
           }
+        } else if i < self.height - 1 {
+          buffer.go_to_line(buffer.get_curr_line() - 2);
         }
         // draw bottom
         if i == self.height - 1 {
@@ -512,6 +516,16 @@ impl Game {
             } else {
               buffer.writeln("┴───".normal());
             }
+          }
+          if j == self.width - 1 {
+            buffer.go_to_line(buffer.get_curr_line() - 1);
+            if cell.hidden {
+              buffer.writeln("┛".normal());
+            } else {
+              buffer.writeln("┘".normal());
+            }
+          } else {
+            buffer.go_to_line(buffer.get_curr_line() - 3);
           }
         }
       }
