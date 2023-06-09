@@ -46,6 +46,13 @@ Brainstorm:
 
 6/9/23:
 In progress:
+- custom game mode
+- more control options
+- readme
+- release binary, apt package, homebrew package?
+
+Finished:
+- playtesting beginner, intermediate, expert gamemodes
 - game display functions
   - display field
 
