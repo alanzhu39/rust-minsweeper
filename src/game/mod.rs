@@ -5,6 +5,7 @@ use crate::util::{Buffer, GameMode, Key};
 use cell::{Cell, CellState};
 use std::collections::{VecDeque, HashSet};
 use rand::distributions::{Distribution, Uniform};
+use colored::Colorize;
 
 pub enum GameState {
   RUNNING,
@@ -281,7 +282,7 @@ impl Game {
   pub fn display_game(&self) {
     let mut buffer = Buffer::new();
     // display field
-    self.display_field();
+    self.display_field(&mut buffer);
 
     // display mine count
     buffer.go_to_line(0);
@@ -302,7 +303,116 @@ impl Game {
     buffer.display_buffer();
   }
 
-  fn display_field(&self) {
+  fn display_field(&self, buffer: &mut Buffer) {
     unimplemented!("display_field() not implemented");
+    for i in 0..self.height {
+      for j in 0..self.width {
+        let cell = self.get_cell(i, j);
+        // draw top
+        if i == 0 {
+          if j == 0 {
+            if cell.hidden {
+              buffer.writeln("    ┏━━━".normal());
+            } else {
+              buffer.writeln("    ┌───".normal());
+            }
+          } else {
+            let left_cell = self.get_cell(i, j - 1);
+            if left_cell.hidden && cell.hidden {
+              buffer.writeln("┳━━━".normal());
+            } else if left_cell.hidden && !cell.hidden {
+              buffer.writeln("┱───".normal());
+            } else if !left_cell.hidden && cell.hidden {
+              buffer.writeln("┲━━━".normal());
+            } else {
+              buffer.writeln("┬───".normal());
+            }
+          }
+        } else {
+          let top_cell = self.get_cell(i - 1, j);
+          if j == 0 {
+            if top_cell.hidden && cell.hidden {
+              buffer.writeln("    ┣━━━".normal());
+            } else if top_cell.hidden && !cell.hidden {
+              buffer.writeln("    ┡━━━".normal());
+            } else if !top_cell.hidden && cell.hidden {
+              buffer.writeln("    ┢━━━".normal());
+            } else {
+              buffer.writeln("    ├───".normal());
+            }
+          } else {
+            let left_cell = self.get_cell(i, j - 1);
+            let top_left_cell = self.get_cell(i - 1, j - 1);
+            let top_edge = top_left_cell.hidden || top_cell.hidden;
+            let left_edge = top_left_cell.hidden || left_cell.hidden;
+            let right_edge = top_cell.hidden || cell.hidden;
+            let bottom_edge = left_cell.hidden || cell.hidden;
+            match (top_edge, right_edge, bottom_edge, left_edge) {
+              (true, true, true, true) => {
+                buffer.writeln("╋━━━".normal());
+              }
+              (true, false, false, false) => {
+                buffer.writeln("╃───".normal());
+              } 
+              (true, false, true, true) => {
+                buffer.writeln("╉───".normal());
+              } 
+              (true, true, false, true) => {
+                buffer.writeln("╇━━━".normal());
+              }
+              (true, true, false, false) => {
+                buffer.writeln("╄━━━".normal());
+              }
+              (false, false, true, true) => {
+                buffer.writeln("╅───".normal());
+              }
+              (false, true, true, false) => {
+                buffer.writeln("╆━━━".normal());
+              }
+              (false, true, true, true) => {
+                buffer.writeln("╊━━━".normal());
+              }
+              (false, true, true, true) => {
+                buffer.writeln("╈━━━".normal());
+              }
+              (false, false, false, false) => {
+                buffer.writeln("┼───".normal());
+              }
+            }
+          }
+        }
+        // draw left
+        if j == 0 {
+          if cell.hidden {
+            buffer.write("    ┃ ".normal());
+          } else {
+            buffer.write("    │ ".normal());
+          }
+        } else {
+          let left_cell = self.get_cell(i, j - 1);
+          if left_cell.hidden || cell.hidden {
+            buffer.write("┃ ".normal());
+          } else {
+            buffer.write("│ ".normal());
+          }
+        }
+        // draw cell
+        if cell.hidden {
+          buffer.write(" ".on_blue());
+        } else {
+          buffer.write(" ".on_white());
+        }
+        buffer.writeln(" ".normal());
+      }
+      // draw top right
+      // draw right
+    }
+    // draw bottom
+    // for each row, draw top edge, then draw row
+      // if first row, draw top edge specially
+      // for each col, draw left edge, then draw cell
+        // if first col, draw left edge specially
+        // draw right edge
+    // draw bottom edge
   }
 }
