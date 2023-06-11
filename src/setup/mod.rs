@@ -3,6 +3,8 @@ use crate::util::GameMode;
 use colored::Colorize;
 use std::io::{self, Write};
 
+const INDENT: u8 = 20;
+
 /* Get gamemode, returns enum variant */
 pub fn get_game_mode() -> GameMode {
   let mut line = String::new();
@@ -11,16 +13,15 @@ pub fn get_game_mode() -> GameMode {
     util::display_banner();
 
     // print game mode prompt
-    let indent = 20;
-    println!("{:indent$}{}", "", "Maximize terminal or press F11 for the optimal experience.".bold().yellow());
+    println!("{:INDENT$}{}", "Maximize terminal or press F11 for the optimal experience.".bold().yellow());
     println!("");
-    println!("{:indent$}{}", "", "Choose Game Mode".bold().white());
-    println!("{:indent$}{}", "", "1. Beginner".bold().green());
-    println!("{:indent$}{}", "", "2. Intermediate".bold().yellow());
-    println!("{:indent$}{}", "", "3. Expert".bold().red());
-    // println!("{:indent$}{}", "", "4. Custom".bold().blue());
+    println!("{:INDENT$}{}", "Choose Game Mode".bold().white());
+    println!("{:INDENT$}{}", "1. Beginner".bold().green());
+    println!("{:INDENT$}{}", "2. Intermediate".bold().yellow());
+    println!("{:INDENT$}{}", "3. Expert".bold().red());
+    println!("{:INDENT$}{}", "4. Custom".bold().blue());
     println!("");
-    print!("{:indent$}", "");
+    print!("{:INDENT$}", "");
     io::stdout().flush().unwrap();
     io::stdin().read_line(&mut line).unwrap();
 
@@ -29,8 +30,7 @@ pub fn get_game_mode() -> GameMode {
       "1" => return GameMode::BEGINNER,
       "2" => return GameMode::INTERMEDIATE,
       "3" => return GameMode::EXPERT,
-      // TODO: implement custom gamemode
-      // "4" => return GameMode::CUSTOM,
+      "4" => return GameMode::CUSTOM,
       _ => {
         println!("{}", "Invalid input, please try again".red());
         line.clear();
@@ -51,11 +51,11 @@ pub fn get_quick_clear_settings() -> bool {
     print!(
       "{} {} {} {} {} {}",
       ("
-      Quick Clear : If a cell with a number on it is already revealed,
-      and it's neighbours have been flagged with the same number,
-      then all tiles adjacent to this cell are also sweeped.
+{:INDENT$}Quick Clear : If a cell with a number on it is already revealed,
+{:INDENT$}              and it's neighbours have been flagged with the same number,
+{:INDENT$}              then all tiles adjacent to this cell are also sweeped.
 
-      Enable Quick Clear?").bold().yellow(),
+{:INDENT$}Enable Quick Clear?").bold().yellow(),
       "[".bold().white(),
       "Y".bold().green(),
       "/".bold().white(),

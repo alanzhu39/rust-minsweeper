@@ -47,11 +47,14 @@ Brainstorm:
 6/10/23:
 In progress:
 - custom game mode
+- cleanup
+- documentation
 - readme
   - credits
     - C++ repo
     - getch crate
   - contributing
+- testing?
 
 Finished:
 - control options: arrow keys for movement

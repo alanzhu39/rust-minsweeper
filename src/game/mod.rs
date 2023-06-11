@@ -6,6 +6,7 @@ use cell::{Cell, CellState};
 use std::collections::{VecDeque, HashSet};
 use rand::distributions::{Distribution, Uniform};
 use colored::Colorize;
+use std::io::{self, Write};
 
 pub enum GameState {
   RUNNING,
@@ -41,6 +42,41 @@ impl Game {
       }
       GameMode::EXPERT => {
         (30, 16, 99)
+      }
+      GameMode::CUSTOM => {
+        loop {
+          util::display_banner();
+          let indent = 20;
+          println!("{:indent$}{}", "Minimum breadth of MineField is 9".bold().white());
+          println!("{:indent$}{}", "Maximum size of MineField is 30 x 16".bold().white());
+
+          let mut w = String::new();
+          print!("{:indent$}{}", "Enter width of minefield : ".bold().blue());
+          io::stdout().flush().unwrap();
+          io::stdin().read_line(&mut w).unwrap();
+          let w = w.trim_end().parse::<i32>();
+
+          let mut h = String::new();
+          print!("{:indent$}{}", "Enter height of minefield : ".bold().blue());
+          io::stdout().flush().unwrap();
+          io::stdin().read_line(&mut h).unwrap();
+          let h = h.trim_end().parse::<i32>();
+
+          let mut n = String::new();
+          print!("{:indent$}{}", "Enter number of mines : ".bold().red());
+          io::stdout().flush().unwrap();
+          io::stdin().read_line(&mut n).unwrap();
+          let n = n.trim_end().parse::<i32>();
+
+          util::clear_screen();
+          
+          if let (Ok(w), Ok(h), Ok(n)) = (w, h, n) {
+            if w < 9 || h < 9 || w > 30 || h > 16 || n < 1 || n > w * h {
+              continue;
+            }
+            break (w, h, n);
+          }
+        }
       }
       _ => {
         (0, 0, 0)
