@@ -44,6 +44,18 @@ Brainstorm:
   - game play, field active
   - game over display, quit or replay
 
+6/10/23:
+In progress:
+- custom game mode
+- readme
+  - credits
+    - C++ repo
+    - getch crate
+  - contributing
+
+Finished:
+- control options: arrow keys for movement
+
 6/9/23:
 In progress:
 - custom game mode
