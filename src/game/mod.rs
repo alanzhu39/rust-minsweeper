@@ -45,25 +45,26 @@ impl Game {
       }
       GameMode::CUSTOM => {
         loop {
+          util::clear_screen();
           util::display_banner();
           let indent = 20;
-          println!("{:indent$}{}", "Minimum breadth of MineField is 9".bold().white());
-          println!("{:indent$}{}", "Maximum size of MineField is 30 x 16".bold().white());
+          println!("{:indent$}{}", "", "Minimum breadth of MineField is 9".bold().white());
+          println!("{:indent$}{}", "", "Maximum size of MineField is 30 x 16".bold().white());
 
           let mut w = String::new();
-          print!("{:indent$}{}", "Enter width of minefield : ".bold().blue());
+          print!("{:indent$}{}", "", "Enter width of minefield : ".bold().blue());
           io::stdout().flush().unwrap();
           io::stdin().read_line(&mut w).unwrap();
           let w = w.trim_end().parse::<i32>();
 
           let mut h = String::new();
-          print!("{:indent$}{}", "Enter height of minefield : ".bold().blue());
+          print!("{:indent$}{}", "", "Enter height of minefield : ".bold().blue());
           io::stdout().flush().unwrap();
           io::stdin().read_line(&mut h).unwrap();
           let h = h.trim_end().parse::<i32>();
 
           let mut n = String::new();
-          print!("{:indent$}{}", "Enter number of mines : ".bold().red());
+          print!("{:indent$}{}", "", "Enter number of mines : ".bold().red());
           io::stdout().flush().unwrap();
           io::stdin().read_line(&mut n).unwrap();
           let n = n.trim_end().parse::<i32>();
