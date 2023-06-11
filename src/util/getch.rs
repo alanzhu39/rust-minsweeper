@@ -85,7 +85,6 @@ impl Getch {
             return Ok(r[0])
           }
         } else {
-          // TODO: accept utf-8
           return Ok(r[0])
         }
       }

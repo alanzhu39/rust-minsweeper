@@ -193,14 +193,6 @@ impl Game {
     num_hidden_cells
   }
 
-  // FIXME: testing
-  pub fn foo(&mut self) {
-    loop {
-      util::get_key();
-      // util::bar();
-    }
-  }
-
   fn sweep_cell(&mut self, sweep_i: i32, sweep_j: i32, quick_clear: bool) {
     let cell = self.get_cell(sweep_i, sweep_j);
     if cell.flagged {
