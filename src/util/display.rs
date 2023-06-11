@@ -46,9 +46,9 @@ pub fn display_game_over_message(buffer: &mut Buffer, is_victory: bool) {
 }
 
 pub fn display_controls(buffer: &mut Buffer) {
-  buffer.writeln(r"  ←, ↓, ↑, →   Movement".bold().white());
+  buffer.writeln(r"  ←, ↓, ↑, →           ".bold().white());
   buffer.writeln(r"      OR     : Movement".bold().white());
-  buffer.writeln(r"  H, J, K, L   Movement".bold().white());
+  buffer.writeln(r"  H, J, K, L           ".bold().white());
   buffer.writeln(r"  S : Sweep".bold().white());
   buffer.writeln(r"  F : Toggle Flag".bold().white());
 }

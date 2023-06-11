@@ -1,36 +1,39 @@
 # Rust Minesweeper
 
-Simple overview of use/purpose.
+A CLI implementation of Minesweeper, written in Rust. Based on the C++ version by [unknownblueguy6](https://github.com/unknownblueguy6/MineSweeper).
 
-## Description
+<img src="images/screenshot.png">
 
-An in-depth paragraph about your project and overview of use.
+## Installation
 
-## Getting Started
+1. Download binary from Releases
 
-### Dependencies
+## Contributing
 
-* Describe any prerequisites, libraries, OS version, etc., needed before installing program.
-* ex. Windows 10
+### Prerequisites
 
-### Installing
+* Rust v1.70+
+* Cargo v1.70+
 
-* How/where to download your program
-* Any modifications needed to be made to files/folders
+### Steps
 
-### Executing program
+1. Clone the repo
 
-* How to run the program
-* Step-by-step bullets
 ```
-code blocks for commands
+$ git clone https://github.com/alanzhu39/rust-minsweeper.git
+$ cd rust-minesweeper
 ```
 
-## Help
+2. Build/run the program
 
-Any advise for common problems or issues.
+* Build
 ```
-command to run if program contains helper info
+$ cargo build
+```
+
+* Run
+```
+$ cargo run
 ```
 
 ## Authors
