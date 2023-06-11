@@ -1,0 +1,120 @@
+TODO:
+Skeleton:
+- field.rs
+- display.rs
+- control.rs
+- main.rs
+fn main() {
+  setGameMode()
+  getQuickFlagSettings()
+  while (true) {
+    displayBanner()
+    displayField()
+    displayFlagCount()
+    if (gameIsOver) {
+      displayGameOverMessage()
+    } else {
+      displayControls()
+    }
+    if (gameIsRunning) {
+      getMove()
+    } else {
+      break;
+    }
+  }
+}
+
+Brainstorm:
+- field: holds game state of mine field
+  - mine positions
+  - cell contents (flag, number, empty, etc.)
+  - field size (board size, num mines, first sweep)
+  - game status (win, loss, in progress)
+  - print grid/cells/field
+- display: prints game status and other UI elements
+  - minesweeper banner
+  - field based on field state
+  - game status based on field state
+  - controls info
+- control: processes user keyboard inputs
+  - parse input
+  - track user cursor position
+- main: main game flow
+  - start screen, game mode selection
+  - game play, field active
+  - game over display, quit or replay
+
+6/10/23:
+In progress:
+- documentation
+- readme
+  - credits
+    - C++ repo
+    - getch crate
+  - contributing
+- testing?
+
+Finished:
+- cleanup
+- control options: arrow keys for movement
+- custom game mode
+
+6/9/23:
+In progress:
+- custom game mode
+- more control options
+- readme
+- release binary, apt package, homebrew package?
+
+Finished:
+- playtesting beginner, intermediate, expert gamemodes
+- game display functions
+  - display field
+
+6/8/23:
+In progress:
+- game display functions
+  - display field
+
+Finished:
+- display flag counter
+- start display field
+- game logic
+  - first sweep
+  - sweeps
+
+6/7/23:
+In progress:
+- game display functions: prob need to add a write buffer for this
+  - display field
+  - display flag counter
+- game logic
+  - first sweep
+  - sweeps
+
+Finished:
+- write buffer
+- flagging
+- navigation
+
+6/6/23:
+In progress:
+- game struct
+- main game loop
+
+6/5/23:
+In progress:
+- more skeleton
+- display functions
+
+Finished:
+- gamemode prompt
+- quick clear settings prompt
+
+5/30/23:
+In progress:
+- brainstorm
+- project skeleton
+
+Finished:
+- rust refresher
