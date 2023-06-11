@@ -51,11 +51,11 @@ pub fn get_quick_clear_settings() -> bool {
     print!(
       "{} {} {} {} {} {}",
       ("
-        Quick Clear : If a cell with a number on it is already revealed,
-                      and it's neighbours have been flagged with the same number,
-                      then all tiles adjacent to this cell are also sweeped.
+          Quick Clear : If a cell with a number on it is already revealed,
+                        and it's neighbours have been flagged with the same number,
+                        then all tiles adjacent to this cell are also sweeped.
 
-        Enable Quick Clear?").bold().yellow(),
+          Enable Quick Clear?").bold().yellow(),
       "[".bold().white(),
       "Y".bold().green(),
       "/".bold().white(),
