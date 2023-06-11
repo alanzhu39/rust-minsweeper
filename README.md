@@ -6,9 +6,9 @@ A CLI implementation of Minesweeper, written in Rust. Based on the C++ version b
 
 ## Installation
 
-1. Download binary from [Releases](https://github.com/alanzhu39/rust-minsweeper/releases) tab
+1. Download the latest binary from the [Releases](https://github.com/alanzhu39/rust-minsweeper/releases) tab
 
-2. Navigate to downloaded binary
+2. Navigate to the downloaded binary
 
 3. Execute binary
 ```
@@ -50,7 +50,7 @@ Alan Zhu
 
 ## Version History
 
-* 0.1
+* 0.1.0
     * Initial Release
 
 ## License
@@ -59,5 +59,6 @@ This project is distributed under the MIT License. See `LICENSE` for more inform
 
 ## Acknowledgments
 
-Inspiration, code snippets, etc.
+* [Minesweeper](https://github.com/unknownblueguy6/MineSweeper): C++ command line version of Minesweeper
 * [README Template](https://gist.github.com/DomPizzie/7a5ff55ffa9081f2de27c315f5018afc)
+* [Getch Crate](https://docs.rs/getch/0.3.1/getch/): Rust library for detecting keyboard characters
