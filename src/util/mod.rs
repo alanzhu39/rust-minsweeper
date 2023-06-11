@@ -1,6 +1,7 @@
 mod sevseg;
 mod display;
 mod buffer;
+mod getch;
 
 use clearscreen;
 use getch::Getch;
@@ -39,10 +40,10 @@ pub fn clear_screen() {
 pub fn get_key() -> Option<Key> {
   let ch = Getch::new().getch().unwrap();
   match ch {
-    b'k' => return Some(Key::K_UP),
-    b'j' => return Some(Key::K_DOWN),
-    b'h' => return Some(Key::K_LEFT),
-    b'l' => return Some(Key::K_RIGHT),
+    b'k' | 37 => return Some(Key::K_UP),
+    b'j' | 38 => return Some(Key::K_DOWN),
+    b'h' | 40 => return Some(Key::K_LEFT),
+    b'l' | 39 => return Some(Key::K_RIGHT),
     b's' => return Some(Key::K_S),
     b'f' => return Some(Key::K_F),
     _ => None

@@ -158,28 +158,10 @@ impl Game {
 
   // FIXME: testing
   pub fn foo(&mut self) {
-    let mut buffer = Buffer::new();
-    let mut cell = self.get_mut_cell(0, 0);
-    cell.hidden = false;
-
-    for n in 1..9 {
-      let mut cell = self.get_mut_cell(0, n);
-      cell.hidden = false;
-      cell.state = CellState::ADJ_TO_MINE;
-      cell.num_adj_mines = n;
+    loop {
+      util::get_key();
+      // util::bar();
     }
-
-    let mut cell = self.get_mut_cell(1, 0);
-    cell.hidden = false;
-    cell.state = CellState::MINE;
-    let mut cell = self.get_mut_cell(1, 1);
-    cell.flagged = true;
-
-    self.display_field(&mut buffer);
-    buffer.go_to_line(0);
-    util::display_mine_count_header(&mut buffer);
-    util::display_sevseg(&mut buffer, 5, self.num_mines - self.flag_count);
-    buffer.display_buffer();
   }
 
   fn sweep_cell(&mut self, sweep_i: i32, sweep_j: i32, quick_clear: bool) {
