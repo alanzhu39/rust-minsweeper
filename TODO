@@ -46,7 +46,6 @@ Brainstorm:
 
 6/10/23:
 In progress:
-- cleanup
 - documentation
 - readme
   - credits
@@ -56,6 +55,7 @@ In progress:
 - testing?
 
 Finished:
+- cleanup
 - control options: arrow keys for movement
 - custom game mode
 
