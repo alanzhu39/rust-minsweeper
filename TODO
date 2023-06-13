@@ -1,48 +1,22 @@
 TODO:
-Skeleton:
-- field.rs
-- display.rs
-- control.rs
-- main.rs
-fn main() {
-  setGameMode()
-  getQuickFlagSettings()
-  while (true) {
-    displayBanner()
-    displayField()
-    displayFlagCount()
-    if (gameIsOver) {
-      displayGameOverMessage()
-    } else {
-      displayControls()
-    }
-    if (gameIsRunning) {
-      getMove()
-    } else {
-      break;
-    }
-  }
-}
+6/12/23:
+In progress:
+- code comments
+- tests
 
-Brainstorm:
-- field: holds game state of mine field
-  - mine positions
-  - cell contents (flag, number, empty, etc.)
-  - field size (board size, num mines, first sweep)
-  - game status (win, loss, in progress)
-  - print grid/cells/field
-- display: prints game status and other UI elements
-  - minesweeper banner
-  - field based on field state
-  - game status based on field state
-  - controls info
-- control: processes user keyboard inputs
-  - parse input
-  - track user cursor position
-- main: main game flow
-  - start screen, game mode selection
-  - game play, field active
-  - game over display, quit or replay
+Finished:
+- release for macos
+- steps:
+  1. add target for rustup build
+    $ rustup add target x86_64-apple-darwin
+  2. install necessary toolchain for cross compiling to macos
+    - get macos sdk (https://github.com/phracker/MacOSX-SDKs)
+    - build osxcross cross compiler (https://github.com/tpoechtrager/osxcross)
+    - add cargo build configs
+      [target.x86_64-apple-darwin]
+      linker = "o64-clang++"
+  3. build with cargo
+    $ cargo build --target x86_64-apple-darwin --release
 
 6/11/23:
 In progress:
@@ -115,6 +89,51 @@ Finished:
 In progress:
 - game struct
 - main game loop
+
+Skeleton:
+- field.rs
+- display.rs
+- control.rs
+- main.rs
+fn main() {
+  setGameMode()
+  getQuickFlagSettings()
+  while (true) {
+    displayBanner()
+    displayField()
+    displayFlagCount()
+    if (gameIsOver) {
+      displayGameOverMessage()
+    } else {
+      displayControls()
+    }
+    if (gameIsRunning) {
+      getMove()
+    } else {
+      break;
+    }
+  }
+}
+
+Brainstorm:
+- field: holds game state of mine field
+  - mine positions
+  - cell contents (flag, number, empty, etc.)
+  - field size (board size, num mines, first sweep)
+  - game status (win, loss, in progress)
+  - print grid/cells/field
+- display: prints game status and other UI elements
+  - minesweeper banner
+  - field based on field state
+  - game status based on field state
+  - controls info
+- control: processes user keyboard inputs
+  - parse input
+  - track user cursor position
+- main: main game flow
+  - start screen, game mode selection
+  - game play, field active
+  - game over display, quit or replay
 
 6/5/23:
 In progress:
