@@ -6,13 +6,13 @@ A CLI implementation of Minesweeper, written in Rust. Based on the C++ version b
 
 ## Installation
 
-1. Download the latest binary from the [Releases](https://github.com/alanzhu39/rust-minsweeper/releases) tab
+1. Download the latest binary for your OS from the [Releases](https://github.com/alanzhu39/rust-minsweeper/releases) tab
 
 2. Navigate to the downloaded binary
 
 3. Execute binary
 ```
-$ ./rust-minesweeper
+$ ./rust-minesweeper-<target>
 ```
 
 ## Contributing
